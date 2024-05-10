@@ -1,0 +1,33 @@
+mh-gateway/HELP.md
+mh-gateway/target/
+mh-gateway/!.mvn/wrapper/maven-wrapper.jar
+mh-gateway/src/main/**/target/
+mh-gateway/src/test/**/target/
+
+### STS ###
+mh-gateway/.apt_generated
+mh-gateway/.classpath
+mh-gateway/.factorypath
+mh-gateway/.project
+mh-gateway/.settings
+mh-gateway/.springBeans
+mh-gateway/.sts4-cache
+
+### IntelliJ IDEA ###
+mh-gateway/.idea
+mh-gateway/*.iws
+mh-gateway/*.iml
+mh-gateway/*.ipr
+
+### NetBeans ###
+mh-gateway/nbproject/private/
+mh-gateway/nbbuild/
+mh-gateway/dist/
+mh-gateway/nbdist/
+mh-gateway/.nb-gradle/
+mh-gateway/build/
+mh-gateway/!**/src/main/**/build/
+mh-gateway/!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
