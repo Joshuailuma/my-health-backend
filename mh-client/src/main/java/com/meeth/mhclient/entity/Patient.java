@@ -1,7 +1,7 @@
-package com.meeth.mhgateway.entity;
+package com.meeth.mhclient.entity;
 
-import com.meeth.mhgateway.enums.Gender;
-import com.meeth.mhgateway.enums.RegistrationStatus;
+import com.meeth.mhclient.enums.Gender;
+import com.meeth.mhclient.enums.RegistrationStatus;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
