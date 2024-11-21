@@ -1,0 +1,29 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: customer
+          uri: lb://customer
+          predicates:
+            - Path=/customer/**
+
+  application:
+    name: api-gateway
+
+eureka:
+  client:
+    service-url:
+      defaultZone : http://localhost:8761/eureka/
+
+server:
+  port: 8082
+
+keycloak:
+  realm: New_realm
+  domain: localhost:8080
+  admin-client-id: My-Health
+  user-client-id: My-Health
+  admin-client-secret: 12345678
+  client: My-Health
+  urls:
+    auth: http://${keycloak.domain}

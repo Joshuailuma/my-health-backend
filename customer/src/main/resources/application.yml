@@ -1,0 +1,47 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: customer
+
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/mh_db
+    username: postgres
+    password: password
+
+#    driver-class-name: org.postgresql.Driver
+#  jpa:
+#    database-platform: org.hibernate.dialect.PostgreSQLDialect
+#    hibernate:
+#      ddl-auto: update
+#    show-sql: true
+#    properties:
+#      hibernate.format_sql: true
+keycloak:
+  realm: New_realm
+  domain: http://localhost:8080
+  admin-client-id: My-Health
+  user-client-id: My-Health
+  admin-client-secret: 12345678
+  client: My-Health
+  urls:
+    auth: http://${keycloak.domain}
+
+cloud:
+  aws:
+    credentials:
+      access-key: 12345678
+      secret-key: 12345678
+    region:
+      static: us-east-1
+    stack:
+      auto:
+        false
+    bucket:
+      name: mh-backend-bucket
+
+eureka:
+  client:
+    service-url:
+      defaultZone : http://localhost:8761/eureka/
