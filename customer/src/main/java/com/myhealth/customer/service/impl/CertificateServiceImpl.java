@@ -1,5 +1,6 @@
-package com.myhealth.customer.service;
+package com.myhealth.customer.service.impl;
 
+import com.myhealth.customer.service.CertificateService;
 import com.myhealth.library.exception.ApiError;
 import com.myhealth.library.model.response.ApiResponseMessage;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,7 @@ import java.util.Objects;
 
 @RequiredArgsConstructor
 @Service
-public class CertificateServiceImpl implements CertificateService{
+public class CertificateServiceImpl implements CertificateService {
     private final S3Client s3Client;
     @Value("${cloud.aws.bucket.name}")
     private String bucketName;
@@ -34,7 +35,7 @@ public class CertificateServiceImpl implements CertificateService{
 
         // Return the URL of the uploaded file
 //        return String.format("https://%s.s3.%s.amazonaws.com/%s", bucketName, s3Client.region().id(), key);
-        return new ApiResponseMessage("success");
+        return new ApiResponseMessage("success", null);
     }
 
     @Override

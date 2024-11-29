@@ -4,6 +4,8 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -12,9 +14,9 @@ import org.springframework.data.relational.core.mapping.Table;
 @Table(name = "certificate")
 public class Certificate {
     @Id
-    private Integer id;
+    private UUID id;
     private String name;
     private String type;
     private String fileUrl;
-    private Doctor doctorId;
+    private UUID doctorId;
 }

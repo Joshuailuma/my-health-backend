@@ -8,6 +8,7 @@ import org.springframework.data.relational.core.mapping.Table;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -17,14 +18,8 @@ import java.util.List;
 @Table(name = "doctor")
 public class Doctor {
     @Id
-    private Integer id;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String phoneNumber;
-    private RegistrationStatus registrationStatus;
-    private Date dateOfBirth;
-    private String countryCode;
-    private String rating;
-    private Gender gender;
+    private UUID id;
+    private UUID userId;
+    private String certificateId;
+    private String specialization;
 }
