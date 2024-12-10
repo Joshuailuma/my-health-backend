@@ -54,4 +54,7 @@ public class ProfileServiceImpl implements ProfileService {
 
         return null;
     }
+
+    // Get logged in user
+
 }

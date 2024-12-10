@@ -12,6 +12,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import static com.myhealth.library.utils.Messages.*;
@@ -39,7 +40,7 @@ public class  RegistrationRequest {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     @NotNull(message = PASSWORD_REQUIRED)
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
 
     @NotBlank(message = COUNTRY_CODE_REQUIRED)
     private String countryCode;

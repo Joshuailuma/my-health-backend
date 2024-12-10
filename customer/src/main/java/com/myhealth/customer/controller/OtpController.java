@@ -1,5 +1,6 @@
 package com.myhealth.customer.controller;
 
+import com.myhealth.customer.service.OtpService;
 import com.myhealth.library.exception.ApiError;
 import com.myhealth.library.model.request.LoginResponseDto;
 import com.myhealth.library.model.request.SendRegistrationDto;
@@ -15,11 +16,15 @@ import reactor.core.publisher.Mono;
 @RestController
 @RequestMapping("customer/otp/")
 public class OtpController {
+    private final OtpService otpService;
 
+    public OtpController(OtpService otpService){
+        this.otpService = otpService;
+    }
     @PostMapping("/send-otp")
     public ResponseEntity<Mono<ApiResponseMessage>> sendOtp(@RequestBody SendRegistrationDto sendRegistrationDto) throws ApiError {
 
-        LoginResponseDto responseMessage = authenticationService.login(loginRequestDto);
+        Mono<ApiResponseMessage> responseMessage = otpService.sendRegistrationOtp(sendRegistrationDto);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(responseMessage);
     }

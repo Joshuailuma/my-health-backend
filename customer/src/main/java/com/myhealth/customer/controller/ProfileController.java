@@ -21,4 +21,10 @@ public class ProfileController {
         ApiResponseMessage<UserDetails> response = profileService.viewProfile(id);
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/upload-image")
+    public ResponseEntity<ApiResponseMessage<UserDetails>> uploadImage(@PathVariable String id) throws ApiError {
+        ApiResponseMessage<UserDetails> response = profileService.viewProfile(id);
+        return ResponseEntity.ok(response);
+    }
 }

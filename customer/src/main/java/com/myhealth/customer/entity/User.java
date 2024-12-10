@@ -9,6 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
@@ -26,7 +27,7 @@ public class User {
     private String email;
     private String phoneNumber;
     private RegistrationStatus registrationStatus;
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
     private String countryCode;
     private String rating;
     private Gender gender;
