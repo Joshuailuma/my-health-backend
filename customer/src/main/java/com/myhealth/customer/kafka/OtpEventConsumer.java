@@ -17,7 +17,9 @@ private final EmailService emailService;
 
  @KafkaListener(topics = "${spring.kafka.topic}", groupId = "${spring.kafka.consumer.group-id}" )
     public void consumeOtpEvent(OtpEvent otpEvent){
-     emailService.sendOtpEmail(otpEvent.getEmail(), otpEvent.getOtp());
+     emailService.sendOtpEmail(otpEvent.getEmail(), otpEvent.getOtp(),
+             "RegistrationOtpEmail.html","Registration OTP"
+             );
      System.out.println("Consumed "+otpEvent);
     }
 }

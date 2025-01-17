@@ -8,4 +8,5 @@ public interface KeycloakService {
     String createUser(RegistrationRequest registrationRequest) throws ApiError;
     UserRepresentation getUserById(String id);
     void deleteUser(String id);
+    String getLoggedInUser();
 }

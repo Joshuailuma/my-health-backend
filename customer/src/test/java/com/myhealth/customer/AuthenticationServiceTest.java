@@ -10,6 +10,8 @@ import com.myhealth.customer.service.impl.AuthenticationServiceImpl;
 import com.myhealth.customer.service.impl.KeycloakServiceImpl;
 import com.myhealth.library.enums.Gender;
 import com.myhealth.library.model.request.RegistrationRequest;
+
+import java. time. LocalDate;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -45,7 +47,7 @@ public class AuthenticationServiceTest {
             "Iluma",
             "joshua@example.com",
             "12345678",
-            new Date(),
+            LocalDate.now(),
             "+234",
             Gender.MALE,
             "12345678",

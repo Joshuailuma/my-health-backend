@@ -39,7 +39,7 @@ public class  RegistrationRequest {
     private String phoneNumber;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-    @NotNull(message = PASSWORD_REQUIRED)
+    @NotNull(message = DATE_OF_BIRTH_REQUIRED)
     private LocalDate dateOfBirth;
 
     @NotBlank(message = COUNTRY_CODE_REQUIRED)

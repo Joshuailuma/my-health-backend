@@ -11,4 +11,5 @@ public class Messages {
     public static final String GENDER_REQUIRED = "User Id required";
     public static final String PASSWORD_REQUIRED = "User Id required";
     public static final String ROLE_REQUIRED = "User Id required";
+    public static final String FAILED_TO_UPLOAD_IMAGE = "Failed to upload image ";
 }
