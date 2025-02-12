@@ -3,7 +3,6 @@ package com.myhealth.customer.entity;
 import com.myhealth.library.enums.Gender;
 import com.myhealth.library.enums.ROLE;
 import com.myhealth.library.enums.RegistrationStatus;
-import io.r2dbc.postgresql.codec.Point;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
@@ -11,7 +10,6 @@ import org.springframework.data.relational.core.mapping.Table;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.UUID;
 
 @Getter
@@ -36,4 +34,6 @@ public class User {
     private LocalDateTime updatedAt;
     private BigDecimal longitude;
     private BigDecimal latitude;
+    private String otp;
+    private LocalDateTime otpExpiryTime;
 }

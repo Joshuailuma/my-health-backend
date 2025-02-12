@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.server.ServerWebInputException;
 
 
 @ControllerAdvice
@@ -33,7 +35,19 @@ public class ApiExceptionHandler  {
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<Object> handleRuntimeException(RuntimeException e) {
-        ApiExceptionMessage errorResponse = new ApiExceptionMessage(e.getMessage(), "005", HttpStatus.BAD_REQUEST);
+        ApiExceptionMessage errorResponse = new ApiExceptionMessage(e.getMessage(), "006", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ResponseStatusException.class)
+    public ResponseEntity<Object> handleResponseStatusException(ResponseStatusException e) {
+        ApiExceptionMessage errorResponse = new ApiExceptionMessage(e.getMessage(), "007", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ServerWebInputException.class)
+    public ResponseEntity<Object> handleInputException(ServerWebInputException e) {
+        ApiExceptionMessage errorResponse = new ApiExceptionMessage(e.getMessage(), "008", HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 }

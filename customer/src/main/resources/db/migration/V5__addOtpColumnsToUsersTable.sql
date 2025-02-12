@@ -1,0 +1,3 @@
+ALTER TABLE users
+ADD COLUMN otp VARCHAR(10),
+ADD COLUMN otp_expiry_time TIMESTAMP;

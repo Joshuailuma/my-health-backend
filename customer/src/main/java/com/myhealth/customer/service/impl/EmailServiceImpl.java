@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -27,10 +28,10 @@ public class EmailServiceImpl implements EmailService    {
         this.thymeleafService = thymeleafService;
     }
 
-    public void sendOtpEmail(String recipientMail,
-                             String otp,
-                             String emailTemplate,
-                             String subject) {
+    public Mono<Void> sendOtpEmail(String recipientMail,
+                                   String otp,
+                                   String emailTemplate,
+                                   String subject) {
 
         Map<String, Object> contextForTemplate = new HashMap<>();
 
@@ -59,6 +60,7 @@ public class EmailServiceImpl implements EmailService    {
 
         // JavaMailSender
         System.out.printf("Sending OTP %s to email %s%n", otp, recipientMail);
+        return Mono.empty();
     }
 
 }

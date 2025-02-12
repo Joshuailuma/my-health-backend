@@ -7,14 +7,15 @@ import com.myhealth.library.exception.ApiError;
 import com.myhealth.library.model.request.LoginRequestDto;
 import com.myhealth.library.model.request.LoginResponseDto;
 import com.myhealth.library.model.request.RegistrationRequest;
+import com.myhealth.library.model.request.ValidatePasswordResetDto;
 import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.keycloak.KeycloakSecurityContext;
 import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
 import org.keycloak.admin.client.resource.RealmResource;
+import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.representations.AccessTokenResponse;
 import org.keycloak.representations.idm.CredentialRepresentation;
@@ -24,10 +25,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import static com.myhealth.library.utils.Messages.PASSWORD_RESET_FAILED;
 
 @Service
 @Slf4j
@@ -48,18 +52,18 @@ public class KeycloakServiceImpl implements KeycloakService {
     public String createUser(RegistrationRequest registrationRequest) throws ApiError {
         String registrationResponse = "";
         UserRepresentation userRepresentation = getUserRepresentation(registrationRequest);
-        log.info("Realm name is "+realm);
+        log.info("Realm name is " + realm);
         RealmResource realmResource = keycloakConfig.keycloak().realm(realm);
         List<UserRepresentation> io = realmResource.users().list();
         UsersResource usersResource = realmResource.users();
         try (Response response = usersResource.create(userRepresentation)) {
-            if(Objects.equals(201, response.getStatus())){
+            if (Objects.equals(201, response.getStatus())) {
                 registrationResponse = "Registration successful";
 
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             registrationResponse = "Registration failed";
-            log.info("Registration failed ",e);
+            log.info("Registration failed ", e);
             throw new ApiError(registrationResponse, "02", HttpStatus.NOT_FOUND);
         }
         return registrationResponse;
@@ -86,7 +90,7 @@ public class KeycloakServiceImpl implements KeycloakService {
     @Override
     public UserRepresentation getUserById(String id) {
         RealmResource realmResource = keycloakConfig.keycloak().realm(realm);
-       return realmResource.users().get(id).toRepresentation();
+        return realmResource.users().get(id).toRepresentation();
     }
 
     @Override
@@ -94,11 +98,11 @@ public class KeycloakServiceImpl implements KeycloakService {
         RealmResource realmResource = keycloakConfig.keycloak().realm(realm);
 
         try (Response deleteResponse = realmResource.users().delete(id)) {
-            if (deleteResponse.getStatus()==200){
+            if (deleteResponse.getStatus() == 200) {
                 log.info("User deleted");
             }
-        } catch (Exception e){
-            throw new RuntimeException("Couldn't delete user ",e);
+        } catch (Exception e) {
+            throw new RuntimeException("Couldn't delete user ", e);
         }
     }
 
@@ -129,10 +133,27 @@ public class KeycloakServiceImpl implements KeycloakService {
     }
 
     @Override
-    public String getLoggedInUser(){
+    public String getLoggedInUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getName();
+    }
 
-       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-       return authentication.getName();
+    public Mono<Void> resetPassword(ValidatePasswordResetDto validatePasswordResetDto) {
 
+        try {
+
+            UserResource usersResource = keycloakConfig.keycloak().realm(realm).users().get(validatePasswordResetDto.email());
+
+            CredentialRepresentation credential = new CredentialRepresentation();
+            credential.setType(CredentialRepresentation.PASSWORD);
+            credential.setValue(validatePasswordResetDto.newPassword());
+            credential.setTemporary(false);
+            usersResource.resetPassword(credential);
+
+        } catch (Exception e) {
+            log.info("Password reset failure ", e);
+            throw new ApiError(PASSWORD_RESET_FAILED, "02", HttpStatus.BAD_REQUEST);
+        }
+        return Mono.empty();
     }
 }
