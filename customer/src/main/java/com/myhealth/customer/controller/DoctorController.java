@@ -1,11 +1,15 @@
 package com.myhealth.customer.controller;
 
-import com.myhealth.customer.service.S3Service;
+import com.myhealth.customer.service.CertificateService;
+import com.myhealth.library.exception.ApiError;
 import com.myhealth.library.model.response.ApiResponseMessage;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Mono;
@@ -13,17 +17,17 @@ import reactor.core.publisher.Mono;
 import java.io.IOException;
 
 @RestController
-@RequestMapping(value = "/customer/doctor" )
+@RequiredArgsConstructor
+@RequestMapping(value = "/customer/doctor")
 public class DoctorController {
-    private final S3Service s3Service;
+    private final CertificateService certificateService;
 
-    public DoctorController(S3Service s3Service) {
-        this.s3Service = s3Service;
-    }
-
-    @PostMapping("/certificate")
-    public ResponseEntity<ApiResponseMessage<String>> uploadCertificate(MultipartFile multipartFile) throws IOException {
-        String uploadCertificateResponse = s3Service.uploadFile(multipartFile, "/certificate");
-        return ResponseEntity.status(HttpStatus.CREATED).body(new ApiResponseMessage<>(uploadCertificateResponse, null));
+    @PostMapping(value = "/upload-certificate", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public Mono<ResponseEntity<ApiResponseMessage>> uploadCertificate(@RequestPart("file") MultipartFile multipartFile) throws IOException {
+        return certificateService.uploadCertificate(multipartFile)
+                .map(response -> ResponseEntity.status(HttpStatus.CREATED).body(response))
+                .onErrorResume(ApiError.class, e -> Mono.just(
+                        ResponseEntity.status(e.getHttpStatus())
+                                .body(new ApiResponseMessage<>(e.getMessage(), null))));
     }
 }
